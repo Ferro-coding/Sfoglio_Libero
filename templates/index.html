@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SfogoLibero - Chat Anonima</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            overflow: hidden;
+        }
+        .message-bubble {
+            transition: all 0.2s ease;
+            border: 1px solid #f0f0f0;
+        }
+        .message-bubble:hover {
+            transform: translateX(4px);
+            background-color: #fafafa;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #ddd;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #ccc;
+        }
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        .new-message {
+            animation: slideIn 0.3s ease forwards;
+        }
+        .chat-container {
+            height: calc(100vh - 4rem);
+            display: flex;
+            flex-direction: column;
+        }
+        .input-area {
+            transition: all 0.3s ease;
+            max-height: 60px;
+        }
+        .input-area:focus-within {
+            max-height: 150px;
+        }
+    </style>
+</head>
+<body class="h-screen">
+    <!-- Header più compatto -->
+    <div class="container mx-auto px-4 py-2">
+        <div class="text-center">
+            <h1 class="text-2xl font-bold text-gray-800 tracking-tight">SfogoLibero</h1>
+            <p class="text-gray-500 text-xs">Chat anonima e libera</p>
+        </div>
+    </div>
+
+    <!-- Container Principale -->
+    <div class="container mx-auto px-4 chat-container max-w-4xl">
+        <!-- Area Chat con messaggi scrollabili - ora più grande -->
+        <div class="flex-1 bg-white rounded-t-xl shadow-sm overflow-hidden">
+            <div id="messages-container" class="h-full overflow-y-auto p-4 custom-scrollbar">
+                <div id="messages" class="space-y-3">
+                    <!-- I messaggi verranno inseriti qui -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Area Input compatta -->
+        <div class="bg-white rounded-b-xl shadow-sm border-t border-gray-100">
+            <div class="p-3 input-area">
+                <div class="flex gap-2">
+                    <input type="text" 
+                           id="nickname" 
+                           class="w-1/4 px-3 py-2 text-sm rounded-lg border border-gray-200 focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition-all outline-none text-gray-700"
+                           placeholder="Nickname"
+                           maxlength="20">
+                    
+                    <div class="relative flex-1">
+                        <input type="text" 
+                               id="message" 
+                               class="w-full px-3 py-2 text-sm rounded-lg border border-gray-200 focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition-all outline-none text-gray-700"
+                               placeholder="Scrivi il tuo messaggio..."
+                               maxlength="500">
+                        <div class="absolute top-2 right-2 text-xs text-gray-400" id="char-count">0/500</div>
+                    </div>
+                    
+                    <button id="send-button" 
+                            class="px-4 py-2 bg-black text-white text-sm rounded-lg font-medium hover:bg-gray-800 transition-all">
+                        Invia
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/main.js"></script>
+</body>
+</html>
